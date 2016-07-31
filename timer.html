@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>Timer</title>
+		
+	</head>
+	<body>
+		<div>
+			<div style="text-align:center;">
+				<div>
+					<div>
+						<span id="time-past">0</span> seconds passed. 
+					</div>
+					<br/>
+					<div>
+						<span id="time-left"></span> seconds left. 
+					</div>
+					<br/>
+					<div>
+						<input type="number" id="time-limit" value="180" style="width:100px;"/> Seconds, Time Limit
+					</div>
+				</div>
+				<br/>
+				<div>
+					<button id="beginBtn">Begin</button>
+					<button id="stopBtn">Stop</button>
+				</div>
+			</div>
+			<hr />
+			<div id="now" style="text-align:center;"></div>
+		</div>
+		
+		<script>
+			var intervalId = null, pass = 0;
+			var timePastEle = document.getElementById('time-past');
+			var timeLeftEle = document.getElementById('time-left');
+			
+			var limit = parseInt(document.getElementById('time-limit').value);
+			timeLeftEle.innerHTML = limit - pass;
+			
+			function reset(){
+				clearInterval(intervalId);
+				limit = parseInt(document.getElementById('time-limit').value);
+				pass = 0;
+				timePastEle.innerHTML = (pass).toString();
+				timeLeftEle.innerHTML = (limit - pass).toString();
+			}
+		
+			setInterval(function(){
+				document.getElementById('now').innerHTML = (new Date()).toString();
+			}, 1000);
+			
+			document.getElementById('beginBtn').addEventListener('click', function(){
+				reset();
+				
+				intervalId = setInterval(function(){
+					timePastEle.innerHTML = (++pass).toString();
+					timeLeftEle.innerHTML = (limit - pass).toString();
+					if (pass >= limit) {
+						clearInterval(intervalId);
+					}
+				}, 1000);
+			});
+			
+			document.getElementById('stopBtn').addEventListener('click', function(){
+				reset();
+			});
+			
+		</script>
+	</body>
+</html>
